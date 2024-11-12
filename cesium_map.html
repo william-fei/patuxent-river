@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sora Bird Migration</title>
+  <script src="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Cesium.js"></script>
+  <link href="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
+  <style>
+    html, body, #cesiumContainer {
+      width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+<div id="cesiumContainer"></div>
+
+<!-- The data and playbackSpeed variables will be injected here by app.py -->
+<script>
+  <!-- INSERT_DATA_HERE -->
+</script>
+
+<script>
+  Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI3OTI4MjRhYS02NTRhLTQ4ZTMtYmE4MS02OTI4OTkyY2NlNTUiLCJpZCI6MjUzMjI2LCJpYXQiOjE3MzA4NzM2Mjl9.VxrUD5NetzguyvX8JOhDgOM_EqLXsg0HuTPygisMxdE';
+
+  // Initialize Cesium viewer
+  const viewer = new Cesium.Viewer('cesiumContainer', {
+    timeline: true,
+    animation: true,
+    shouldAnimate: false  // Ensure animation is off by default
+  });
+
+  // Coordinates for the new point
+  const sfPointPosition = Cesium.Cartesian3.fromDegrees(-122.4189591, 37.6614238);
+
+  // Default styling for the point entity
+  viewer.entities.add({
+    position: sfPointPosition,
+    point: {
+      pixelSize: 6,
+      color: Cesium.Color.DEEPSKYBLUE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      show: showLabel  // Set based on `showLabel` variable
+    },
+    label: {
+      text: 'San Francisco',
+      font: '16px sans-serif',
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      outlineWidth: 2,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, -20),  // Offset label above the point
+      show: showLabel  // Set based on `showLabel` variable
+    }
+  });
+
+    // Coordinates for the new point
+    const patuxentPointPosition = Cesium.Cartesian3.fromDegrees(-76.71130153, 38.77356818);
+
+  // Default styling for the point entity
+  viewer.entities.add({
+    position: patuxentPointPosition,
+    point: {
+      pixelSize: 4,
+      color: Cesium.Color.DEEPSKYBLUE,
+      outlineColor: Cesium.Color.BLACK,
+      outlineWidth: 2,
+      show: showLabel  // Set based on `showLabel` variable
+    },
+    label: {
+      text: 'Patuxent River Park',
+      font: '16px sans-serif',
+      style: Cesium.LabelStyle.FILL_AND_OUTLINE,
+      outlineWidth: 2,
+      verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
+      pixelOffset: new Cesium.Cartesian2(0, -20),  // Offset label above the point
+      show: showLabel  // Set based on `showLabel` variable
+    }
+  });
+
+
+  // Set initial camera view centered on Maryland with appropriate zoom level
+  viewer.camera.flyTo({
+    destination: Cesium.Cartesian3.fromDegrees(-76.6413, 39.0458, 2600000), // Center on Maryland with 5000 km height
+    orientation: {
+      heading: Cesium.Math.toRadians(0.0), // No rotation
+      pitch: Cesium.Math.toRadians(-90.0), // Directly overhead
+      roll: 0.0
+    }
+  });
+
+
+  viewer.clock.shouldAnimate = initialPlayState; // Start/stop based on sidebar button state
+
+  // Parse data and initialize variables
+  const soraPaths = {};
+  data.forEach((entry) => {
+    const { timestamp, "location-long": lon, "location-lat": lat, "individual-local-identifier": id } = entry;
+    const entryDate = Cesium.JulianDate.fromDate(new Date(timestamp));
+    
+    if (!soraPaths[id]) {
+      soraPaths[id] = { positions: [], timestamps: [] };
+    }
+    soraPaths[id].positions.push(Cesium.Cartesian3.fromDegrees(lon, lat));
+    soraPaths[id].timestamps.push(entryDate);
+  });
+
+  // Add each Sora bird's path as an entity with an arrow, based on timestamps
+  const timelineEnd = Cesium.JulianDate.fromDate(new Date('2022-06-30'));
+
+// Loop through the migration path data and add entities with both arrow and glow
+for (const [id, pathData] of Object.entries(soraPaths)) {
+  for (let i = 1; i < pathData.positions.length; i++) {
+    const start = pathData.positions[i - 1];
+    const end = pathData.positions[i];
+    const startDate = pathData.timestamps[i - 1];
+
+    // Create the arrow polyline
+    viewer.entities.add({
+      polyline: {
+        positions: [start, end],
+        width: 7,
+        material: new Cesium.PolylineArrowMaterialProperty(Cesium.Color.CORAL.withAlpha(0.65)),
+        clampToGround: true
+      },
+      availability: new Cesium.TimeIntervalCollection([
+        new Cesium.TimeInterval({
+          start: startDate,
+          stop: timelineEnd,
+          isStartIncluded: true,
+          isStopIncluded: true
+        })
+      ])
+    });
+
+    // Create the glowing effect as a separate polyline with a slightly thicker width
+    viewer.entities.add({
+      polyline: {
+        positions: [start, end],
+        width: 9, // Slightly wider than the arrow layer
+        material: new Cesium.PolylineGlowMaterialProperty({
+          glowPower: 0.25, // Subtle glow effect
+          color: Cesium.Color.CORAL.withAlpha(0.35) // Yellow with some transparency
+        }),
+        clampToGround: true
+      },
+      availability: new Cesium.TimeIntervalCollection([
+        new Cesium.TimeInterval({
+          start: startDate,
+          stop: timelineEnd,
+          isStartIncluded: true,
+          isStopIncluded: true
+        })
+      ])
+    });
+  }
+}
+
+  // Set up timeline range
+  const start = Cesium.JulianDate.fromDate(new Date('2018-08-01'));
+  viewer.clock.startTime = start.clone();
+  viewer.clock.stopTime = timelineEnd.clone();
+  viewer.clock.currentTime = start.clone();
+  viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; // Loop at the end of the range
+  viewer.clock.multiplier = playbackSpeed * 2700000; // Control playback speed
+
+  // Toggle animation with function
+  function toggleAnimation() {
+    viewer.clock.shouldAnimate = !viewer.clock.shouldAnimate;
+  }
+</script>
+</body>
+</html>
