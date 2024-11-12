@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Sora Bird Migration</title>
+  <title>Migration</title>
   <script src="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Cesium.js"></script>
   <link href="https://cesium.com/downloads/cesiumjs/releases/1.90/Build/Cesium/Widgets/widgets.css" rel="stylesheet">
   <style>
@@ -92,23 +92,23 @@
   viewer.clock.shouldAnimate = initialPlayState; // Start/stop based on sidebar button state
 
   // Parse data and initialize variables
-  const soraPaths = {};
+  const paths = {};
   data.forEach((entry) => {
     const { timestamp, "location-long": lon, "location-lat": lat, "individual-local-identifier": id } = entry;
     const entryDate = Cesium.JulianDate.fromDate(new Date(timestamp));
     
-    if (!soraPaths[id]) {
-      soraPaths[id] = { positions: [], timestamps: [] };
+    if (!paths[id]) {
+      paths[id] = { positions: [], timestamps: [] };
     }
-    soraPaths[id].positions.push(Cesium.Cartesian3.fromDegrees(lon, lat));
-    soraPaths[id].timestamps.push(entryDate);
+    paths[id].positions.push(Cesium.Cartesian3.fromDegrees(lon, lat));
+    paths[id].timestamps.push(entryDate);
   });
 
-  // Add each Sora bird's path as an entity with an arrow, based on timestamps
+  // Add each bird's path as an entity with an arrow, based on timestamps
   const timelineEnd = Cesium.JulianDate.fromDate(new Date('2022-06-30'));
 
 // Loop through the migration path data and add entities with both arrow and glow
-for (const [id, pathData] of Object.entries(soraPaths)) {
+for (const [id, pathData] of Object.entries(paths)) {
   for (let i = 1; i < pathData.positions.length; i++) {
     const start = pathData.positions[i - 1];
     const end = pathData.positions[i];

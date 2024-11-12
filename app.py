@@ -17,14 +17,14 @@ page = st.sidebar.selectbox(
 )
 if page == "🌍 Cesium":
     # Load the data
-    data = pd.read_csv("sora.csv")
+    data = pd.read_csv("data.csv")
     
     # Parse the timestamp to datetime format
     data['timestamp'] = pd.to_datetime(data['timestamp'])
     
     # Set up Streamlit layout
     st.title("Migration Viewer")
-    st.write("View the migration paths of Sora birds over time originating from Patuxent River Park, Maryland.")
+    st.write("View the migration paths over time originating from Patuxent River Park, Maryland.")
         
     # Prepare data for Cesium
     cesium_data = data[['timestamp', 'location-long', 'location-lat', 'individual-local-identifier']].copy()
@@ -60,9 +60,7 @@ if page == "🌍 Cesium":
     html(html_code, height=600)
 
 elif page == "💡 About":
-    # Introduction page content
-    st.title("Day of Learning Demo")
-    #st.video("https://youtu.be/OZNsHOfBkyA")
+    st.title("Demo")
 
     patuxent_video_file = open("patuxentriverpark.mov", "rb")
     patuxent_video_bytes = patuxent_video_file.read()
@@ -81,10 +79,10 @@ elif page == "💡 About":
     
 elif page == "🗺️ D3":
     st.title("D3 Hexbin Map")
-    st.write("This hexbin map shows the distribution of Sora bird migration points.")
+    st.write("This hexbin map shows the distribution of the migration points.")
 
     # Load the data
-    data = pd.read_csv("sora.csv")
+    data = pd.read_csv("data.csv")
 
     # Allow the user to adjust the hexbin radius
     hexbin_radius = st.number_input("Hexbin Radius", min_value=5, max_value=25, value=7)
@@ -104,8 +102,8 @@ elif page == "🗺️ D3":
     # Display the HTML content
     html(html_code, height=600)
 if page == "🕊️ Folium":
-    st.title("Journey of Sora ID 08911")
-    st.write("In the Spring (orange), this Sora flew all the way up to Nova Scotia to breed!")
+    st.title("Migration Journey")
+    st.write("In the Spring (orange), this bird flew all the way up to Nova Scotia to breed!")
     st.write("That fall (blue), the bird head back South, last detected in South Carolina.")
     
     # Load only the data for bird ID 08911
