@@ -9,10 +9,14 @@
     html, body, #cesiumContainer {
       width: 100%; height: 100%; margin: 0; padding: 0; overflow: hidden;
     }
+    #hiddenCreditContainer {
+      display: none; /* Hidden container for credits */
+    }
   </style>
 </head>
 <body>
 <div id="cesiumContainer"></div>
+<div id="hiddenCreditContainer"></div> <!-- Hidden credit container -->
 
 <!-- The data and playbackSpeed variables will be injected here by app.py -->
 <script>
@@ -26,7 +30,8 @@
   const viewer = new Cesium.Viewer('cesiumContainer', {
     timeline: true,
     animation: true,
-    shouldAnimate: false  // Ensure animation is off by default
+    shouldAnimate: false,
+    creditContainer: document.getElementById('hiddenCreditContainer') // Hide Cesium credits
   });
 
   // Coordinates for the new point

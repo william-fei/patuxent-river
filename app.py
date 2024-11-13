@@ -1,6 +1,5 @@
 import streamlit as st
 import pandas as pd
-import datetime
 import json
 import geopandas as gpd
 from streamlit.components.v1 import html
@@ -8,11 +7,12 @@ from shapely.geometry import Point
 import folium
 from folium.plugins import TimestampedGeoJson
 from streamlit_folium import folium_static
+import time
 
 # Define the page selection in the sidebar
 page = st.sidebar.selectbox(
     "Navigation", 
-    ["💡 About", "🌍 Cesium", "🕊️ Folium", "🗺️ D3"], 
+    ["💡 About", "🌍 Cesium", "🕊️ Folium", "🐦 PyDeck", "🗺️ D3"], 
     index=1  # Set the default to load the Cesium page initially
 )
 if page == "🌍 Cesium":
@@ -23,7 +23,7 @@ if page == "🌍 Cesium":
     data['timestamp'] = pd.to_datetime(data['timestamp'])
     
     # Set up Streamlit layout
-    st.title("Migration Viewer")
+    st.title("Migration Viewer: Cesium.js")
     st.write("View the migration paths over time originating from Patuxent River Park, Maryland.")
         
     # Prepare data for Cesium
@@ -60,7 +60,7 @@ if page == "🌍 Cesium":
     html(html_code, height=600)
 
 elif page == "💡 About":
-    st.title("Demo")
+    st.title("Day of Learning Demo")
 
     patuxent_video_file = open("patuxentriverpark.mov", "rb")
     patuxent_video_bytes = patuxent_video_file.read()
@@ -78,7 +78,7 @@ elif page == "💡 About":
     st.write("37.6614238°N 122.4189591°W")
     
 elif page == "🗺️ D3":
-    st.title("D3 Hexbin Map")
+    st.title("Hexbin Map: D3.js")
     st.write("This hexbin map shows the distribution of the migration points.")
 
     # Load the data
@@ -101,9 +101,9 @@ elif page == "🗺️ D3":
 
     # Display the HTML content
     html(html_code, height=600)
-if page == "🕊️ Folium":
-    st.title("Migration Journey")
-    st.write("In the Spring (orange), this bird flew all the way up to Nova Scotia to breed!")
+elif page == "🕊️ Folium":
+    st.title("Single Bird Journey: Folium")
+    st.write("In Spring (orange), this bird flew to Nova Scotia to breed.")
     st.write("That fall (blue), the bird head back South, last detected in South Carolina.")
     
     # Load only the data for bird ID 08911
@@ -274,3 +274,199 @@ if page == "🕊️ Folium":
 
     # Render map in Streamlit
     folium_static(m)
+
+elif page == "🐦 PyDeck":
+    st.title("Single Bird Journey: PyDeck")
+    
+    bird_data = {
+        "timestamp": {
+            2438411: 1651778193000,
+            2439372: 1653100556000,
+            2439412: 1653102961000,
+            2439435: 1653115618000,
+            2439458: 1653116773000,
+            2439490: 1653117840000,
+            2439511: 1653121583000,
+            2439527: 1653272247000,
+            2439535: 1653272896000,
+            2439599: 1653280035000,
+            2439632: 1653281800000,
+            2439732: 1662529356000,
+            2439752: 1662529696000,
+            2439790: 1662534148000,
+            2439861: 1662535292000,
+            2439896: 1665965629000,
+            2439919: 1665968800000,
+            2439970: 1665982505000,
+            2439995: 1665983038000,
+            2439998: 1665983077000,
+            2440016: 1665983291000,
+            2440075: 1665989643000,
+            2440154: 1665990652000,
+            2440237: 1665995288000,
+            2440260: 1665996520000,
+            2440323: 1665997606000,
+            2440355: 1666000031000
+        },
+        "location-long": {
+            2438411: -76.7113,
+            2439372: -77.6258,
+            2439412: -77.9972,
+            2439435: -79.4567,
+            2439458: -79.7017,
+            2439490: -79.6467,
+            2439511: -79.8761,
+            2439527: -80.012,
+            2439535: -80.0899,
+            2439599: -80.0943,
+            2439632: -80.2237,
+            2439732: -79.503,
+            2439752: -79.5235,
+            2439790: -79.5501,
+            2439861: -79.4735,
+            2439896: -79.1849,
+            2439919: -78.404,
+            2439970: -76.9409,
+            2439995: -76.6077,
+            2439998: -76.6825,
+            2440016: -76.7224,
+            2440075: -75.7205,
+            2440154: -76.3845,
+            2440237: -75.8221,
+            2440260: -76.0077,
+            2440323: -76.3551,
+            2440355: -75.9894
+        },
+        "location-lat": {
+            2438411: 38.7738,
+            2439372: 39.4483,
+            2439412: 39.7104,
+            2439435: 41.8787,
+            2439458: 41.997,
+            2439490: 42.3087,
+            2439511: 42.9776,
+            2439527: 43.4429,
+            2439535: 43.5089,
+            2439599: 44.0461,
+            2439632: 44.2884,
+            2439732: 44.9404,
+            2439752: 44.945,
+            2439790: 44.3849,
+            2439861: 44.2803,
+            2439896: 43.8191,
+            2439919: 43.1127,
+            2439970: 40.5274,
+            2439995: 40.476,
+            2439998: 40.4045,
+            2440016: 40.4263,
+            2440075: 38.8015,
+            2440154: 38.7569,
+            2440237: 37.5887,
+            2440260: 37.3222,
+            2440323: 37.0987,
+            2440355: 36.527
+        },
+        "individual-local-identifier": {
+            2438411: "1412-80214",
+            2439372: "1412-80214",
+            2439412: "1412-80214",
+            2439435: "1412-80214",
+            2439458: "1412-80214",
+            2439490: "1412-80214",
+            2439511: "1412-80214",
+            2439527: "1412-80214",
+            2439535: "1412-80214",
+            2439599: "1412-80214",
+            2439632: "1412-80214",
+            2439732: "1412-80214",
+            2439752: "1412-80214",
+            2439790: "1412-80214",
+            2439861: "1412-80214",
+            2439896: "1412-80214",
+            2439919: "1412-80214",
+            2439970: "1412-80214",
+            2439995: "1412-80214",
+            2439998: "1412-80214",
+            2440016: "1412-80214",
+            2440075: "1412-80214",
+            2440154: "1412-80214",
+            2440237: "1412-80214",
+            2440260: "1412-80214",
+            2440323: "1412-80214",
+            2440355: "1412-80214"
+        }
+    }
+
+
+    # Convert dictionary to DataFrame
+    bird_df = pd.DataFrame(bird_data)
+    bird_df['timestamp'] = pd.to_datetime(bird_df['timestamp'], unit='ms')
+
+    tab1, tab2, tab3 = st.tabs(["Static Points", "Static Lines", "Cumulative Distance"])
+
+    # Static map
+    with tab1:
+        st.write("### Bird's Recorded Migration Points (Static)")
+        st.map(bird_df.rename(columns={"location-lat": "lat", "location-long": "lon"}))
+
+    # Animated map
+    with tab2:
+        st.write("### Migration Path, with Sample Altitude")
+
+        # Generate a density-based heatmap to show areas of high bird movement
+        import pydeck as pdk
+        
+        # Visualizing migration altitude over time in a 3D path
+        bird_df['altitude'] = bird_df.index % 1000 + 100  # Sample altitude, replace with real data if available
+        path_layer = pdk.Layer(
+            "PathLayer",
+            data=[{
+                "path": bird_df[["location-long", "location-lat", "altitude"]].values.tolist(),
+                "timestamp": bird_df["timestamp"].iloc[0]
+            }],
+            get_path="path",
+            get_width=10,
+            width_min_pixels=3,
+            get_color=[200, 30, 0, 160],
+            elevation_scale=4,
+            extruded=True
+        )
+        
+        view_state = pdk.ViewState(latitude=bird_df["location-lat"].mean(),
+                                longitude=bird_df["location-long"].mean(),
+                                zoom=5,
+                                pitch=45)
+        
+        st.pydeck_chart(pdk.Deck(layers=[path_layer], initial_view_state=view_state))
+    
+    with tab3:
+        st.write("### Total Distance Travelled")
+            
+        # Shifted columns to calculate distance between consecutive points
+        bird_df['shifted_lat'] = bird_df['location-lat'].shift(1)
+        bird_df['shifted_long'] = bird_df['location-long'].shift(1)
+        
+        # Define a function to calculate distance between two latitude/longitude points using Haversine formula
+        def haversine(lat1, lon1, lat2, lon2):
+            import numpy as np
+            R = 6371  # Earth radius in km
+            lat1, lon1, lat2, lon2 = map(np.radians, [lat1, lon1, lat2, lon2])
+            dlat = lat2 - lat1
+            dlon = lon2 - lon1
+            a = np.sin(dlat / 2) ** 2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon / 2) ** 2
+            c = 2 * np.arctan2(np.sqrt(a), np.sqrt(1 - a))
+            return R * c
+        
+        # Calculate distance between each consecutive point and accumulate the total distance traveled by date
+        bird_df['distance_km'] = haversine(
+            bird_df['location-lat'], bird_df['location-long'], bird_df['shifted_lat'], bird_df['shifted_long']
+        ).fillna(0)
+        bird_df['cumulative_distance_km'] = bird_df['distance_km'].cumsum()
+
+        # Plot cumulative distance traveled by each date
+        bird_df['date'] = bird_df['timestamp'].dt.date  # Extract date only for daily tracking
+        daily_cumulative_distance = bird_df.groupby('date')['cumulative_distance_km'].max().reset_index()
+
+        # Display line chart
+        st.line_chart(daily_cumulative_distance.set_index('date'), height=300)
+        st.write("#### Final Cumulative Distance:", daily_cumulative_distance['cumulative_distance_km'].iloc[-1].round(2), "km")
