@@ -23,8 +23,8 @@ if page == "🌍 Cesium":
     data['timestamp'] = pd.to_datetime(data['timestamp'])
     
     # Set up Streamlit layout
-    st.title("Migration Viewer: Cesium.js")
-    st.write("View the migration paths over time originating from Patuxent River Park, Maryland.")
+    st.title("Cesium.js: Migration Timelapse")
+    st.write("View the migration paths over five years originating from Patuxent River Park, Maryland.")
         
     # Prepare data for Cesium
     cesium_data = data[['timestamp', 'location-long', 'location-lat', 'individual-local-identifier']].copy()
@@ -59,8 +59,14 @@ if page == "🌍 Cesium":
     # Display the HTML content with embedded data
     html(html_code, height=600)
 
+    st.write("San Francisco-")
+    st.write("37.6614238°N 122.4189591°W")
+
 elif page == "💡 About":
-    st.title("Day of Learning Demo")
+    st.title("Sora Migration Visualizer")
+    st.subheader("Exploring Tools for Geospatial Visualization and Analysis")
+
+    st.write("Every fall, Sora Rails gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are uncovering the migration routes of these little-studied marsh birds.")
 
     patuxent_video_file = open("patuxentriverpark.mov", "rb")
     patuxent_video_bytes = patuxent_video_file.read()
@@ -74,11 +80,9 @@ elif page == "💡 About":
     st.write("Antenna Used for Data Collection")
     st.video(antenna_video_bytes)
 
-    st.write("San Francisco-")
-    st.write("37.6614238°N 122.4189591°W")
-    
+
 elif page == "🗺️ D3":
-    st.title("Hexbin Map: D3.js")
+    st.title("D3.js: Hexabin Map")
     st.write("This hexbin map shows the distribution of the migration points.")
 
     # Load the data
@@ -102,9 +106,9 @@ elif page == "🗺️ D3":
     # Display the HTML content
     html(html_code, height=600)
 elif page == "🕊️ Folium":
-    st.title("Single Bird Journey: Folium")
+    st.title("Folium: Nova Scotia Journey")
     st.write("In Spring (orange), this bird flew to Nova Scotia to breed.")
-    st.write("That fall (blue), the bird head back South, last detected in South Carolina.")
+    st.write("That fall (blue), the bird head back South. It was last detected in South Carolina.")
     
     # Load only the data for bird ID 08911
     bird_data = {
@@ -263,9 +267,9 @@ elif page == "🕊️ Folium":
         date_options="ss"
     )
 
-    option = st.radio("Select what to display:", ("Points Only", "Lines Only"))
+    option = st.radio("Display as:", ("Points", "Line"))
     
-    if option == "Points Only":
+    if option == "Points":
         timestamped_points.add_to(m)
     else:
         timestamped_lines.add_to(m)
@@ -276,7 +280,7 @@ elif page == "🕊️ Folium":
     folium_static(m)
 
 elif page == "🐦 PyDeck":
-    st.title("Single Bird Journey: PyDeck")
+    st.title("PyDeck: Lake Erie Journey")
     
     bird_data = {
         "timestamp": {

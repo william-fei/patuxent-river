@@ -166,7 +166,7 @@ for (const [id, pathData] of Object.entries(paths)) {
   viewer.clock.stopTime = timelineEnd.clone();
   viewer.clock.currentTime = start.clone();
   viewer.clock.clockRange = Cesium.ClockRange.LOOP_STOP; // Loop at the end of the range
-  viewer.clock.multiplier = playbackSpeed * 2700000; // Control playback speed
+  viewer.clock.multiplier = playbackSpeed * 2200000; // Control playback speed
 
   // Toggle animation with function
   function toggleAnimation() {
