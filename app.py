@@ -66,12 +66,12 @@ elif page == "💡 About":
     st.title("Sora Migration Visualizer")
     st.subheader("Exploring Tools for Geospatial Visualization and Analysis")
 
-    st.write("Every fall, Sora Rails gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are gaining valuable data into the migration routes of these marsh birds.")
+    st.write("Every fall, Sora gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are gaining valuable data into the migration routes of these marsh birds.")
 
     patuxent_video_file = open("patuxentriverpark.mov", "rb")
     patuxent_video_bytes = patuxent_video_file.read()
 
-    st.write("This is Me at Patuxent River Park!")
+    st.write("This is me at Patuxent River Park!")
     st.video(patuxent_video_bytes)
 
     antenna_video_file = open("antenna.mov", "rb")
