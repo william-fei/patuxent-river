@@ -24,7 +24,7 @@ if page == "🌍 Cesium":
     
     # Set up Streamlit layout
     st.title("Cesium.js: Migration Timelapse")
-    st.write("View the migration paths over five years originating from Patuxent River Park, Maryland.")
+    st.write("View the 2017-2022 migration paths of Sora originating from Patuxent River Park, Maryland.")
         
     # Prepare data for Cesium
     cesium_data = data[['timestamp', 'location-long', 'location-lat', 'individual-local-identifier']].copy()
@@ -66,18 +66,18 @@ elif page == "💡 About":
     st.title("Sora Migration Visualizer")
     st.subheader("Exploring Tools for Geospatial Visualization and Analysis")
 
-    st.write("Every fall, Sora Rails gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are uncovering the migration routes of these little-studied marsh birds.")
+    st.write("Every fall, Sora Rails gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are gaining valuable data into the migration routes of these marsh birds.")
 
     patuxent_video_file = open("patuxentriverpark.mov", "rb")
     patuxent_video_bytes = patuxent_video_file.read()
 
-    st.write("Me at Patuxent River Park!")
+    st.write("This is Me at Patuxent River Park!")
     st.video(patuxent_video_bytes)
 
     antenna_video_file = open("antenna.mov", "rb")
     antenna_video_bytes = antenna_video_file.read()
 
-    st.write("Antenna Used for Data Collection")
+    st.write("This is one antenna used for data collection:")
     st.video(antenna_video_bytes)
 
 
