@@ -5,7 +5,7 @@ This project visualizes the migration patterns of the Sora Rail.
 
 Every fall, Sora gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are gaining valuable data into the migration routes of these marsh birds.
 
-https://github.com/user-attachments/assets/746e287a-4e23-4181-9330-ae0ed9370557
+[![Final Video](https://img.youtube.com/vi/-Rf9chRP9H0/0.jpg)](https://www.youtube.com/watch?v=-Rf9chRP9H0)
 
 ## Data Cleaning
 
