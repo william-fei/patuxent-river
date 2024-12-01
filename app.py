@@ -59,9 +59,6 @@ if page == "🌍 Cesium":
     # Display the HTML content with embedded data
     html(html_code, height=600)
 
-    st.write("San Francisco-")
-    st.write("37.6614238°N 122.4189591°W")
-
 elif page == "💡 About":
     st.title("Sora Migration Visualizer")
     st.subheader("Exploring Tools for Geospatial Visualization and Analysis")
