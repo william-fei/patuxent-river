@@ -1,17 +1,4 @@
-# Sora Migration Visualizer
-## View the streamlit app: [patuxent.streamlit.app](https://patuxent.streamlit.app/)
-
-This project visualizes the migration patterns of the Sora Rail.
-
-Every fall, Sora gather by the hundreds at Patuxent River Park. By attaching transmitters that weigh only 1.5 grams, researchers are gaining valuable data into the migration routes of these marsh birds.
-
-## View the video demo: [youtu.be/-Rf9chRP9H0](https://youtu.be/-Rf9chRP9H0?si=D9LC7OyyWbRDNP8_)
-
-## Data Cleaning
-
-The following file contains my work for the data cleaning: `cleaning.ipnyb`.
-
-I used Python to process the original 2 GB dataset, which contained all recorded interactions between tagged birds and receiver stations from 2017 to 2022. I filtered the data to retain only the first recorded instance of each bird at a specific receiver location, and excluded birds that traveled identical paths. After processing, the dataset was only 12 KB in size.
+## View the app: [patuxent.streamlit.app](https://patuxent.streamlit.app/)
 
 ## Cesium.js
 
